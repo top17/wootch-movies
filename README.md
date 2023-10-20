@@ -23,8 +23,7 @@ To get started with Wootch Movies, follow these steps:
 
 5. Create config file in src folder
 
-   - Add BASE_URL = 'https://api.themoviedb.org/3'
-   - Add you API_KEY = 'your_api_key'
+   - Add VITE_API_KEY = 'your_api_key'
 
 6. To build the project and start the application, run:
    npm run dev
