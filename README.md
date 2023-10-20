@@ -21,7 +21,7 @@ To get started with Wootch Movies, follow these steps:
    - Click on your user profile picture in the navigation bar, and select "Settings".
    - In the settings, select "API" and generate an API key.
 
-5. Create config file in src folder
+5. Create .env file in src folder
 
    - Add VITE_API_KEY = 'your_api_key'
 
