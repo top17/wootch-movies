@@ -55,7 +55,7 @@ const ListMovies = () => {
               src={
                 data.poster_path
                   ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
-                  : 'src/assets/default.jpg'
+                  : '/default.jpg'
               }
               alt={data.title}
             />

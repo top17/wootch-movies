@@ -24,7 +24,7 @@ const Navbar = () => {
             .catch(console.error)
         }
       >
-        <StyledImg src="src/assets/logo.png" />
+        <StyledImg src="/logo.png" />
       </NavLink>
       <StyledNavItems>
         <StyledNavLink to="/">Home</StyledNavLink>
