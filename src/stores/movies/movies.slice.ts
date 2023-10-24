@@ -29,7 +29,6 @@ const movieListSlice = createSlice({
     },
     setParam: (state, action: PayloadAction<string>) => {
       state.param = action.payload
-      // state.pageIndex = 0
     },
   },
   extraReducers: (builder) => {
@@ -39,6 +38,7 @@ const movieListSlice = createSlice({
           state.movieList = action.payload.results
           state.total = action.payload.total_pages
         }
+        state.loading = false
       })
       .addCase(getMovieList.pending, (state) => {
         state.loading = true

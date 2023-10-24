@@ -5,8 +5,10 @@ import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 import { Movie, PaginationProps } from '../../types'
 
+import { ClipLoader } from 'react-spinners'
 import {
   StyledDivBox,
+  StyledDivClipLoader,
   StyledDivContainer,
   StyledDivTitle,
   StyledPagination,
@@ -15,9 +17,8 @@ import {
 const ListMovies = () => {
   const dispatch = useAppDispatch()
 
-  const { movieList, param, pageIndex, pageSize, total } = useAppSelector(
-    (state) => state.movieList
-  )
+  const { movieList, param, pageIndex, pageSize, total, loading } =
+    useAppSelector((state) => state.movieList)
 
   useEffect(() => {
     if (param === '') {
@@ -47,35 +48,46 @@ const ListMovies = () => {
 
   return (
     <div>
-      <StyledDivContainer className="StyledDiv">
-        {displayedMovies.map((data: Movie) => (
-          <StyledDivBox key={data.id}>
-            <img
-              key={data.id}
-              src={
-                data.poster_path
-                  ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
-                  : '/default.jpg'
-              }
-              alt={data.title}
-            />
-            <StyledDivTitle>
-              <p>{data.title}</p>
-              <p>{data.vote_average.toFixed(1)}</p>
-            </StyledDivTitle>
-          </StyledDivBox>
-        ))}
-      </StyledDivContainer>
-      <StyledPagination>
-        <button
-          onClick={() => handleSetPageIndex(previousPage)}
-          disabled={pageIndex === 1}
-        >
-          Previous Page
-        </button>
-        <p>{pageIndex}</p>
-        <button onClick={() => handleSetPageIndex(nextPage)}>Next Page</button>
-      </StyledPagination>
+      {loading ? (
+        <StyledDivClipLoader>
+          <ClipLoader size={50} color={'#fff'} loading={loading} />
+        </StyledDivClipLoader>
+      ) : (
+        <div>
+          <StyledDivContainer className="StyledDiv">
+            {displayedMovies.map((data: Movie) => (
+              <StyledDivBox key={data.id}>
+                <img
+                  key={data.id}
+                  src={
+                    data.poster_path
+                      ? `https://image.tmdb.org/t/p/w500${data.poster_path}`
+                      : '/default.jpg'
+                  }
+                  alt={data.title}
+                />
+                <StyledDivTitle>
+                  <p>{data.title}</p>
+                  <p>{data.vote_average.toFixed(1)}</p>
+                  <p>a</p>
+                </StyledDivTitle>
+              </StyledDivBox>
+            ))}
+          </StyledDivContainer>
+          <StyledPagination>
+            <button
+              onClick={() => handleSetPageIndex(previousPage)}
+              disabled={pageIndex === 1}
+            >
+              Previous Page
+            </button>
+            <p>{pageIndex}</p>
+            <button onClick={() => handleSetPageIndex(nextPage)}>
+              Next Page
+            </button>
+          </StyledPagination>
+        </div>
+      )}
     </div>
   )
 }

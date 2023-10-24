@@ -49,3 +49,8 @@ export const StyledDivTitle = styled.div`
   justify-content: center;
   gap: 1rem;
 `
+
+export const StyledDivClipLoader = styled.div`
+  display: flex;
+  justify-content: center;
+`
