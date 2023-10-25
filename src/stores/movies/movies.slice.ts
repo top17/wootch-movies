@@ -1,9 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Movie, PaginationProps } from '../../types'
-import { getMovieList, searchMovieList } from '../../api/movies.service'
+import { Movie, PaginationProps, Trailer } from '../../types'
+import {
+  getMovieList,
+  getMovieTrailer,
+  searchMovieList,
+} from '../../api/movies.service'
 
 interface initialStateProps {
   movieList: Movie[]
+  trailerList: Trailer[]
   loading: boolean
   total: number
   pageIndex: number
@@ -13,6 +18,7 @@ interface initialStateProps {
 
 const initialState: initialStateProps = {
   movieList: [],
+  trailerList: [],
   loading: false,
   total: 0,
   pageIndex: 1,
@@ -57,6 +63,18 @@ const movieListSlice = createSlice({
         state.loading = true
       })
       .addCase(searchMovieList.rejected, (state) => {
+        state.loading = false
+      })
+      .addCase(getMovieTrailer.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.trailerList = action.payload
+        }
+        state.loading = false
+      })
+      .addCase(getMovieTrailer.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getMovieTrailer.rejected, (state) => {
         state.loading = false
       })
   },

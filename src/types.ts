@@ -3,6 +3,7 @@ export type Movie = {
   title: string
   poster_path: string
   vote_average: number
+  overview: string
 }
 
 export interface MoviesResponseList {
@@ -15,4 +16,9 @@ export interface PaginationProps {
   pageSize: number
   pageIndex: number
   total: number
+}
+
+export interface Trailer {
+  type: string
+  key: string
 }

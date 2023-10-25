@@ -1,5 +1,10 @@
-import { useEffect } from 'react'
-import { getMovieList, searchMovieList } from '../../api/movies.service'
+import { useEffect, useState } from 'react'
+import {
+  getMovieList,
+  getMovieTrailer,
+  searchMovieList,
+} from '../../api/movies.service'
+import ModalOverview from '../Modal/ModalOverview'
 import { setParam, setPageIndex } from '../../stores/movies/movies.slice'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
@@ -12,12 +17,16 @@ import {
   StyledDivContainer,
   StyledDivTitle,
   StyledPagination,
+  StyledVoteAverage,
 } from './ListMovies.styled'
 
 const ListMovies = () => {
   const dispatch = useAppDispatch()
 
-  const { movieList, param, pageIndex, pageSize, total, loading } =
+  const [lgShow, setLgShow] = useState(false)
+  const [selectedMovie, setSelectedMovie] = useState(null)
+
+  const { movieList, param, pageIndex, pageSize, total, loading, trailerList } =
     useAppSelector((state) => state.movieList)
 
   useEffect(() => {
@@ -28,6 +37,14 @@ const ListMovies = () => {
       dispatch(searchMovieList(param)).unwrap().catch(console.error)
     }
   }, [param, pageIndex])
+
+  const handleMovieClick = (movie: any) => {
+    setSelectedMovie(movie)
+    setLgShow(true)
+    dispatch(getMovieTrailer(movie.id)).unwrap().catch(console.error)
+  }
+
+  console.log(trailerList)
 
   const handleSetPageIndex = (newPageIndex: PaginationProps) => {
     dispatch(setPageIndex(newPageIndex))
@@ -44,7 +61,6 @@ const ListMovies = () => {
     pageSize: pageSize,
     total: total,
   }
-  const displayedMovies = movieList.slice(pageIndex, total)
 
   return (
     <div>
@@ -54,9 +70,20 @@ const ListMovies = () => {
         </StyledDivClipLoader>
       ) : (
         <div>
+          <ModalOverview
+            show={lgShow}
+            onHide={() => setLgShow(false)}
+            movie={selectedMovie}
+            trailerKey={
+              trailerList.find((item) => item.type === 'Trailer')?.key || ''
+            }
+          />
           <StyledDivContainer className="StyledDiv">
-            {displayedMovies.map((data: Movie) => (
-              <StyledDivBox key={data.id}>
+            {movieList.map((data: Movie) => (
+              <StyledDivBox
+                key={data.id}
+                onClick={() => handleMovieClick(data)}
+              >
                 <img
                   key={data.id}
                   src={
@@ -67,13 +94,15 @@ const ListMovies = () => {
                   alt={data.title}
                 />
                 <StyledDivTitle>
-                  <p>{data.title}</p>
-                  <p>{data.vote_average.toFixed(1)}</p>
-                  <p>a</p>
+                  <div>{data.title}</div>
+                  <StyledVoteAverage data-value={data.vote_average}>
+                    {data.vote_average.toFixed(1)}
+                  </StyledVoteAverage>
                 </StyledDivTitle>
               </StyledDivBox>
             ))}
           </StyledDivContainer>
+
           <StyledPagination>
             <button
               onClick={() => handleSetPageIndex(previousPage)}
@@ -81,7 +110,7 @@ const ListMovies = () => {
             >
               Previous Page
             </button>
-            <p>{pageIndex}</p>
+            <div>{pageIndex}</div>
             <button onClick={() => handleSetPageIndex(nextPage)}>
               Next Page
             </button>

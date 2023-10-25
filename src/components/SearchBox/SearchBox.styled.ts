@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const StyledDivInput = styled.div`
-  height: 2rem;
+  height: 2.5rem;
   display: flex;
   cursor: pointer;
   padding: 0.25rem 1rem;
@@ -10,7 +10,7 @@ export const StyledDivInput = styled.div`
   align-items: center;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   &:hover input {
-    width: 10rem;
+    width: 11rem;
   }
 `
 export const StyledInput = styled.input`
