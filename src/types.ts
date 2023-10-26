@@ -22,3 +22,16 @@ export interface Trailer {
   type: string
   key: string
 }
+
+export interface TrailerResposneList {
+  results: Trailer[]
+}
+
+export interface Genre {
+  id: number
+  name: string
+}
+
+export interface GenreResponseList {
+  genres: Genre[]
+}

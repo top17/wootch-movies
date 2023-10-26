@@ -2,22 +2,16 @@ import axios, { AxiosResponse } from 'axios'
 import { API_KEY, BASE_URL } from '../config'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-import { Movie, Trailer } from '../types'
-
-interface MoviesResponseList {
-  results: Movie[]
-  total_pages: number
-  total_results: number
-}
-
-interface TrailerResposneList {
-  results: Trailer[]
-}
+import {
+  TrailerResposneList,
+  MoviesResponseList,
+  GenreResponseList,
+} from '../types'
 
 export const getMovieList = createAsyncThunk(
   'api/getMovieList',
-  async (pageIndex: number) => {
-    const url = `${BASE_URL}/discover/movie?page=${pageIndex}`
+  async ({ pageIndex, genre }: { pageIndex: number; genre: number | null }) => {
+    const url = `${BASE_URL}/discover/movie?page=${pageIndex}&with_genres=${genre}`
 
     const config = {
       headers: {
@@ -100,3 +94,29 @@ export const getMovieTrailer = createAsyncThunk(
     }
   }
 )
+
+export const getGenreList = createAsyncThunk('api/getGenreList', async () => {
+  const url = `${BASE_URL}/genre/movie/list?language=en`
+
+  const config = {
+    headers: {
+      Authorization: API_KEY,
+    },
+    params: {
+      api_key: API_KEY,
+    },
+  }
+
+  try {
+    const { data }: AxiosResponse<GenreResponseList> = await axios.get(
+      url,
+      config
+    )
+
+    return {
+      genres: data.genres,
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
