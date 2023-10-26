@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Movie, PaginationProps, Trailer } from '../../types'
+import { Genre, Movie, PaginationProps, Trailer } from '../../types'
 import {
   getMovieList,
   getMovieTrailer,
   searchMovieList,
+  getGenreList,
 } from '../../api/movies.service'
 
 interface initialStateProps {
   movieList: Movie[]
   trailerList: Trailer[]
+  genreList: Genre[]
+  genre: number | null
   loading: boolean
   total: number
   pageIndex: number
@@ -19,6 +22,8 @@ interface initialStateProps {
 const initialState: initialStateProps = {
   movieList: [],
   trailerList: [],
+  genreList: [],
+  genre: null,
   loading: false,
   total: 0,
   pageIndex: 1,
@@ -35,6 +40,9 @@ const movieListSlice = createSlice({
     },
     setParam: (state, action: PayloadAction<string>) => {
       state.param = action.payload
+    },
+    setSelectedGenre: (state, action: PayloadAction<number>) => {
+      state.genre = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -77,9 +85,21 @@ const movieListSlice = createSlice({
       .addCase(getMovieTrailer.rejected, (state) => {
         state.loading = false
       })
+      .addCase(getGenreList.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.genreList = action.payload.genres
+        }
+        state.loading = false
+      })
+      .addCase(getGenreList.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(getGenreList.rejected, (state) => {
+        state.loading = false
+      })
   },
 })
 const { actions } = movieListSlice
 
-export const { setPageIndex, setParam } = actions
+export const { setPageIndex, setParam, setSelectedGenre } = actions
 export default movieListSlice.reducer

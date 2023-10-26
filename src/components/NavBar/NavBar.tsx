@@ -9,6 +9,7 @@ import {
   StyledNavLink,
   StyledImg,
 } from './NavBar.styled'
+import ListGenres from '../ListGenres/ListGenres'
 
 const Navbar = () => {
   const dispatch = useAppDispatch()
@@ -29,6 +30,7 @@ const Navbar = () => {
       <StyledNavItems>
         <StyledNavLink to="/">Home</StyledNavLink>
         <StyledNavLink to="/login">Login</StyledNavLink>
+        <ListGenres />
         <SearchBox />
       </StyledNavItems>
     </StyledNavBar>

@@ -1,10 +1,12 @@
 import ListMovies from '../../components/ListMovies/ListMovies'
+import Pagination from '../../components/Pagination/Pagination'
 
 const Home = () => {
   return (
-    <div>
+    <>
       <ListMovies />
-    </div>
+      <Pagination />
+    </>
   )
 }
 export default Home

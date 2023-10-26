@@ -5,10 +5,10 @@ import {
   searchMovieList,
 } from '../../api/movies.service'
 import ModalOverview from '../Modal/ModalOverview'
-import { setParam, setPageIndex } from '../../stores/movies/movies.slice'
+import { setParam } from '../../stores/movies/movies.slice'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
-import { Movie, PaginationProps } from '../../types'
+import { Movie } from '../../types'
 
 import { ClipLoader } from 'react-spinners'
 import {
@@ -16,7 +16,6 @@ import {
   StyledDivClipLoader,
   StyledDivContainer,
   StyledDivTitle,
-  StyledPagination,
   StyledVoteAverage,
 } from './ListMovies.styled'
 
@@ -26,17 +25,17 @@ const ListMovies = () => {
   const [lgShow, setLgShow] = useState(false)
   const [selectedMovie, setSelectedMovie] = useState(null)
 
-  const { movieList, param, pageIndex, pageSize, total, loading, trailerList } =
+  const { movieList, param, pageIndex, loading, trailerList, genre } =
     useAppSelector((state) => state.movieList)
 
   useEffect(() => {
     if (param === '') {
       dispatch(setParam(''))
-      dispatch(getMovieList(pageIndex)).unwrap().catch(console.error)
+      dispatch(getMovieList({ pageIndex, genre })).unwrap().catch(console.error)
     } else {
       dispatch(searchMovieList(param)).unwrap().catch(console.error)
     }
-  }, [param, pageIndex])
+  }, [param, pageIndex, genre])
 
   const handleMovieClick = (movie: any) => {
     setSelectedMovie(movie)
@@ -44,26 +43,8 @@ const ListMovies = () => {
     dispatch(getMovieTrailer(movie.id)).unwrap().catch(console.error)
   }
 
-  console.log(trailerList)
-
-  const handleSetPageIndex = (newPageIndex: PaginationProps) => {
-    dispatch(setPageIndex(newPageIndex))
-  }
-
-  const previousPage: PaginationProps = {
-    pageIndex: pageIndex > 1 ? pageIndex - 1 : 1,
-    pageSize: pageSize,
-    total: total,
-  }
-
-  const nextPage: PaginationProps = {
-    pageIndex: pageIndex < total ? pageIndex + 1 : total,
-    pageSize: pageSize,
-    total: total,
-  }
-
   return (
-    <div>
+    <div style={{ maxWidth: '100%' }}>
       {loading ? (
         <StyledDivClipLoader>
           <ClipLoader size={50} color={'#fff'} loading={loading} />
@@ -78,6 +59,7 @@ const ListMovies = () => {
               trailerList.find((item) => item.type === 'Trailer')?.key || ''
             }
           />
+
           <StyledDivContainer className="StyledDiv">
             {movieList.map((data: Movie) => (
               <StyledDivBox
@@ -94,7 +76,7 @@ const ListMovies = () => {
                   alt={data.title}
                 />
                 <StyledDivTitle>
-                  <div>{data.title}</div>
+                  <div style={{ color: '#fff' }}>{data.title}</div>
                   <StyledVoteAverage data-value={data.vote_average}>
                     {data.vote_average.toFixed(1)}
                   </StyledVoteAverage>
@@ -102,19 +84,6 @@ const ListMovies = () => {
               </StyledDivBox>
             ))}
           </StyledDivContainer>
-
-          <StyledPagination>
-            <button
-              onClick={() => handleSetPageIndex(previousPage)}
-              disabled={pageIndex === 1}
-            >
-              Previous Page
-            </button>
-            <div>{pageIndex}</div>
-            <button onClick={() => handleSetPageIndex(nextPage)}>
-              Next Page
-            </button>
-          </StyledPagination>
         </div>
       )}
     </div>
