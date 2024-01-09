@@ -15,7 +15,6 @@ interface initialStateProps {
   loading: boolean
   total: number
   pageIndex: number
-  pageSize: number
   param: string
 }
 
@@ -27,7 +26,6 @@ const initialState: initialStateProps = {
   loading: false,
   total: 0,
   pageIndex: 1,
-  pageSize: 20,
   param: '',
 }
 
@@ -41,7 +39,7 @@ const movieListSlice = createSlice({
     setParam: (state, action: PayloadAction<string>) => {
       state.param = action.payload
     },
-    setSelectedGenre: (state, action: PayloadAction<number>) => {
+    setSelectedGenre: (state, action: PayloadAction<number | null>) => {
       state.genre = action.payload
     },
   },

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 export const StyledDivContainer = styled.div`
+  max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: auto;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 `
 
 export const StyledDivBox = styled.div`

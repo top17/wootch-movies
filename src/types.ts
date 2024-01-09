@@ -13,9 +13,7 @@ export interface MoviesResponseList {
 }
 
 export interface PaginationProps {
-  pageSize: number
   pageIndex: number
-  total: number
 }
 
 export interface Trailer {
@@ -34,4 +32,35 @@ export interface Genre {
 
 export interface GenreResponseList {
   genres: Genre[]
+}
+
+export type User = {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  passwordConfirmation: string
+}
+
+export type UserLogIn = {
+  email: string
+  password: string
+  accessToken?: string
+}
+
+export type UserPasswordVerify = {
+  id: string
+  passwordResetCode: string
+  password: string
+  passwordConfirmation: string
+}
+
+export type UserResetPassword = {
+  password: string
+  passwordConfirmation: string
+}
+
+export type UserVerify = {
+  id: string
+  verificationCode: string
 }

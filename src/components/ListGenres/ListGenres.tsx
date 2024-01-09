@@ -22,11 +22,14 @@ const ListGenres = () => {
     label: genre.name,
   }))
 
+  const selectedValue =
+    genre === null ? null : selectOptions.find((opt) => opt.value === genre)
+
   return (
     <Select
       styles={customStyles}
       options={selectOptions}
-      value={selectOptions.find((opt) => opt.value === genre)}
+      value={selectedValue}
       onChange={(selectedOption) => {
         handleGenreClick(selectedOption?.value || 0)
       }}
