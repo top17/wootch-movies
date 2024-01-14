@@ -5,6 +5,7 @@ import Navbar from '../components/NavBar/NavBar'
 import Verify from '../pages/Verify/Verify.page'
 import ResetPassword from '../pages/ResetPassword/ResetPassword.page'
 import ForgotPassword from '../pages/ForgotPassword/ForgotPassword.page'
+import UserProfile from '../components/UserProfile/UserProfile'
 
 const Router = () => {
   return (
@@ -20,6 +21,7 @@ const Router = () => {
         path="/api/users/reset/:id/:passwordResetCode"
         element={<ResetPassword />}
       />
+      <Route path="/userProfile" element={<UserProfile />} />
     </Routes>
   )
 }

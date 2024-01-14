@@ -64,3 +64,15 @@ export type UserVerify = {
   id: string
   verificationCode: string
 }
+
+export type DropdownItem = {
+  value: string
+  label: string
+}
+
+export type DropdownProps = {
+  value: string
+  data: DropdownItem[]
+  placeholder?: string
+  onChange: (value: string) => void
+}

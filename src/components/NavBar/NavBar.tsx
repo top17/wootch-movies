@@ -3,6 +3,13 @@ import SearchBox from '../SearchBox/SearchBox'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { getMovieList } from '../../api/movies.service'
+import ListGenres from '../ListGenres/ListGenres'
+import {
+  setPageIndex,
+  setParam,
+  setSelectedGenre,
+} from '../../stores/movies/movies.slice'
+import UserDropdown from '../UserDropdown/UserDropdown'
 
 import {
   StyledNavBar,
@@ -12,13 +19,6 @@ import {
   DropdownMenu,
   MenuButton,
 } from './NavBar.styled'
-import ListGenres from '../ListGenres/ListGenres'
-import {
-  setPageIndex,
-  setParam,
-  setSelectedGenre,
-} from '../../stores/movies/movies.slice'
-import UserProfile from '../UserProfile/UserProfile'
 
 const Navbar = () => {
   const dispatch = useAppDispatch()
@@ -48,10 +48,11 @@ const Navbar = () => {
           Home
         </StyledNavLink>
         {accessToken ? (
-          <UserProfile />
+          <UserDropdown />
         ) : (
           <StyledNavLink to="/login">Login</StyledNavLink>
         )}
+
         {showSearchAndGenres && (
           <>
             <ListGenres />
