@@ -11,7 +11,11 @@ import {
 export const getMovieList = createAsyncThunk(
   'api/getMovieList',
   async ({ pageIndex, genre }: { pageIndex: number; genre: number | null }) => {
-    const url = `${BASE_URL}/discover/movie?page=${pageIndex}&with_genres=${genre}`
+    let url = `${BASE_URL}/discover/movie?page=${pageIndex}`
+
+    if (genre !== null) {
+      url += `&with_genres=${genre}`
+    }
 
     const config = {
       headers: {
